@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using System;
 using System.Data;
+using DevExpress.DataAccess.MongoDB;
 
 namespace AspNetCoreDashboardBackend {
     public class Startup {
@@ -37,6 +38,7 @@ namespace AspNetCoreDashboardBackend {
                 .AddDevExpressControls()                
                 .AddControllers();
             services.AddScoped<DashboardConfigurator>((IServiceProvider serviceProvider) => {				
+                DashboardConfigurator.PassCredentials = true;
                 DashboardConfigurator configurator = new DashboardConfigurator();
                 configurator.SetConnectionStringsProvider(new DashboardConnectionStringsProvider(Configuration));
                 DashboardFileStorage dashboardFileStorage = new DashboardFileStorage(FileProvider.GetFileInfo("App_Data/Dashboards").PhysicalPath);
@@ -77,6 +79,19 @@ namespace AspNetCoreDashboardBackend {
 			sqlDataSource.Queries.Add(query);
 			dataSourceStorage.RegisterDataSource("sqlDataSource", sqlDataSource.SaveToXml());
 			
+DashboardMongoDBDataSource mongoDataSource = new DashboardMongoDBDataSource("Mongo Data Source")
+            {
+                ConnectionParameters = new MongoDBConnectionParameters("localhost", false, 27017)
+            };
+            var queryCategories = new MongoDBQuery()
+            {
+                DatabaseName = "VFS_Strategy_Hub",
+                CollectionName = "locations"
+            };
+            mongoDataSource.Queries.Add(queryCategories);
+   
+            dataSourceStorage.RegisterDataSource("mongoDataSource", mongoDataSource.SaveToXml());
+
 			DashboardExcelDataSource energyStatistics = new DashboardExcelDataSource("Energy Statistics");
             energyStatistics.ConnectionName = "energyStatisticsDataConnection";
             energyStatistics.SourceOptions = new ExcelSourceOptions(new ExcelWorksheetSettings("Map Data"));

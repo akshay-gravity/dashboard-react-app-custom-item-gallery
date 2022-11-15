@@ -10,6 +10,7 @@ import GanttItem from './items/GanttItem';
 import ParameterItem from './items/ParameterItem';
 import TreeViewItem from './items/HierarchicalTreeViewItem';
 import FunnelD3Item from './items/FunnelD3Item';
+import Map from './items/Map';
 
 function onBeforeRender(e) { 
   var dashboardControl = e.component;
@@ -22,6 +23,7 @@ function onBeforeRender(e) {
   dashboardControl.registerExtension(new GanttItem(dashboardControl));
   dashboardControl.registerExtension(new TreeViewItem(dashboardControl));
   dashboardControl.registerExtension(new FunnelD3Item(dashboardControl));
+  dashboardControl.registerExtension(new Map(dashboardControl));
 }
 
 function App() {  

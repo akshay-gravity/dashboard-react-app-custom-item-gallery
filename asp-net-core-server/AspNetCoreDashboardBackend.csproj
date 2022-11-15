@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="DevExpress.AspNetCore.Dashboard" Version="21.1.5" />
+    <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
 	<PackageReference Include="System.Data.SQLite.Core" Version="1.0.112.2" />
   </ItemGroup>
 </Project>
